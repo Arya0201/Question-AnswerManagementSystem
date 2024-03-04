@@ -1,0 +1,24 @@
+
+
+## Features
+- Admin can creates and manages users and QuestionPapers.
+-Teacher can creates new Questionpaper and sends it to  admin for approvel 
+- Students can submit answers to question papers.
+- Answers are timestamped upon submission.
+- Submitted question papers are stored in a database.
+- Students can view submitted question papers.
+
+## Technologies Used
+- C# (Programming language)
+- ASP.NET MVC (Framework)
+- Entity Framework (Object-Relational Mapping)
+- HTML/CSS (Frontend)
+- JavaScript (Frontend)
+- Microsoft SQL Server (Database)
+
+## Database Details(QAManagementSystem)
+-Users Table
+-QuestionPaper
+-Questions
+-Answer
+-SubmittedQuestionPapers

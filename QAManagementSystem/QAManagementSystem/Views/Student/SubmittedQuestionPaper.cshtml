@@ -1,0 +1,32 @@
+﻿@using QAManagementSystem.Models
+@model List<SubmittedQuestionPaperViewModel>
+
+<h2>Submitted Question Papers</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question Paper Title</th>
+                <th>Question Paper Description</th>
+                <th>Submission Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var submission in Model)
+            {
+                <tr>
+              
+                    <td>@submission.QuestionPaperTitle</td>
+                    <td>@submission.QuestionPaperDescription</td>
+                    <td>@submission.SubmissionTimestamp</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No submitted question papers found.</p>
+}

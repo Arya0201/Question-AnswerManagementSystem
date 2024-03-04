@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QAManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="QuestionPapers" Relationship="QAManagementSystemModel.FK__QuestionP__Creat__36B12243" FromRole="User" ToRole="QuestionPaper" />
+    <NavigationProperty Name="Answers" Relationship="QAManagementSystemModel.FK__Answer__UserId__49C3F6B7" FromRole="User" ToRole="Answer" />
+    <NavigationProperty Name="SubmittedQuestionPapers" Relationship="QAManagementSystemModel.FK__Submitted__UserI__5165187F" FromRole="User" ToRole="SubmittedQuestionPaper" />
+  </EntityType>
+  <EntityContainer Name="QAManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="QuestionPapers" EntityType="QAManagementSystemModel.QuestionPaper" />
+    <AssociationSet Name="FK__QuestionP__Creat__36B12243" Association="QAManagementSystemModel.FK__QuestionP__Creat__36B12243">
+      <End Role="User" EntitySet="Users" />
+      <End Role="QuestionPaper" EntitySet="QuestionPapers" />
+    </AssociationSet>
+    <EntitySet Name="Questions" EntityType="QAManagementSystemModel.Question" />
+    <AssociationSet Name="FK_Question_QuestionPaper" Association="QAManagementSystemModel.FK_Question_QuestionPaper">
+      <End Role="QuestionPaper" EntitySet="QuestionPapers" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+    <EntitySet Name="Answers" EntityType="QAManagementSystemModel.Answer" />
+    <AssociationSet Name="FK__Answer__Question__4AB81AF0" Association="QAManagementSystemModel.FK__Answer__Question__4AB81AF0">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Answer" EntitySet="Answers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Answer__UserId__49C3F6B7" Association="QAManagementSystemModel.FK__Answer__UserId__49C3F6B7">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Answer" EntitySet="Answers" />
+    </AssociationSet>
+    <EntitySet Name="SubmittedQuestionPapers" EntityType="QAManagementSystemModel.SubmittedQuestionPaper" />
+    <AssociationSet Name="FK__Submitted__Quest__52593CB8" Association="QAManagementSystemModel.FK__Submitted__Quest__52593CB8">
+      <End Role="QuestionPaper" EntitySet="QuestionPapers" />
+      <End Role="SubmittedQuestionPaper" EntitySet="SubmittedQuestionPapers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Submitted__UserI__5165187F" Association="QAManagementSystemModel.FK__Submitted__UserI__5165187F">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SubmittedQuestionPaper" EntitySet="SubmittedQuestionPapers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="QuestionPaper">
+    <Key>
+      <PropertyRef Name="QuestionPaperId" />
+    </Key>
+    <Property Name="QuestionPaperId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatorUserId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="QAManagementSystemModel.FK__QuestionP__Creat__36B12243" FromRole="QuestionPaper" ToRole="User" />
+    <NavigationProperty Name="Questions" Relationship="QAManagementSystemModel.FK_Question_QuestionPaper" FromRole="QuestionPaper" ToRole="Question" />
+    <NavigationProperty Name="SubmittedQuestionPapers" Relationship="QAManagementSystemModel.FK__Submitted__Quest__52593CB8" FromRole="QuestionPaper" ToRole="SubmittedQuestionPaper" />
+  </EntityType>
+  <Association Name="FK__QuestionP__Creat__36B12243">
+    <End Type="QAManagementSystemModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="QAManagementSystemModel.QuestionPaper" Role="QuestionPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="QuestionPaper">
+        <PropertyRef Name="CreatorUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionPaperId" Type="Int32" Nullable="false" />
+    <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OptionA" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OptionB" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OptionC" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OptionD" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CorrectAnswer" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QuestionPaper" Relationship="QAManagementSystemModel.FK_Question_QuestionPaper" FromRole="Question" ToRole="QuestionPaper" />
+    <NavigationProperty Name="Answers" Relationship="QAManagementSystemModel.FK__Answer__Question__4AB81AF0" FromRole="Question" ToRole="Answer" />
+  </EntityType>
+  <Association Name="FK_Question_QuestionPaper">
+    <End Type="QAManagementSystemModel.QuestionPaper" Role="QuestionPaper" Multiplicity="1" />
+    <End Type="QAManagementSystemModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionPaper">
+        <PropertyRef Name="QuestionPaperId" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="QuestionPaperId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="AnswerID" />
+    </Key>
+    <Property Name="AnswerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="QuestionId" Type="Int32" />
+    <Property Name="AnswerText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CorrectOption" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="SubmissionTimestamp" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Question" Relationship="QAManagementSystemModel.FK__Answer__Question__4AB81AF0" FromRole="Answer" ToRole="Question" />
+    <NavigationProperty Name="User" Relationship="QAManagementSystemModel.FK__Answer__UserId__49C3F6B7" FromRole="Answer" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__Answer__Question__4AB81AF0">
+    <End Type="QAManagementSystemModel.Question" Role="Question" Multiplicity="0..1" />
+    <End Type="QAManagementSystemModel.Answer" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Answer__UserId__49C3F6B7">
+    <End Type="QAManagementSystemModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="QAManagementSystemModel.Answer" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SubmittedQuestionPaper">
+    <Key>
+      <PropertyRef Name="SubmissionID" />
+    </Key>
+    <Property Name="SubmissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="QuestionPaperId" Type="Int32" />
+    <Property Name="SubmissionTimestamp" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="QuestionPaper" Relationship="QAManagementSystemModel.FK__Submitted__Quest__52593CB8" FromRole="SubmittedQuestionPaper" ToRole="QuestionPaper" />
+    <NavigationProperty Name="User" Relationship="QAManagementSystemModel.FK__Submitted__UserI__5165187F" FromRole="SubmittedQuestionPaper" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__Submitted__Quest__52593CB8">
+    <End Type="QAManagementSystemModel.QuestionPaper" Role="QuestionPaper" Multiplicity="0..1" />
+    <End Type="QAManagementSystemModel.SubmittedQuestionPaper" Role="SubmittedQuestionPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionPaper">
+        <PropertyRef Name="QuestionPaperId" />
+      </Principal>
+      <Dependent Role="SubmittedQuestionPaper">
+        <PropertyRef Name="QuestionPaperId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Submitted__UserI__5165187F">
+    <End Type="QAManagementSystemModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="QAManagementSystemModel.SubmittedQuestionPaper" Role="SubmittedQuestionPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="SubmittedQuestionPaper">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

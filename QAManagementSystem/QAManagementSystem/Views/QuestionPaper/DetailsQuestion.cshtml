@@ -1,0 +1,77 @@
+﻿
+@model IEnumerable<QAManagementSystem.Models.Question>
+<style>
+    /* Style for the main container */
+    .container1 {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style for headings */
+    h2, h3, h4 {
+        color: #333;
+        margin-top: 0;
+    }
+
+    /* Style for question container */
+    .question-container {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    /* Style for options */
+    p {
+        margin: 5px 0;
+    }
+
+    /* Style for back to list link */
+    .back-link {
+        margin-top: 20px;
+    }
+
+        /* Style for link */
+        .back-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            /* Style for link hover */
+            .back-link a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+
+
+<div class="container1">
+    <h2>Details of Question Paper</h2>
+    <div>
+        <h3>Question Paper Title: @ViewBag.Title</h3>
+        <h3>Description: @ViewBag.Description</h3>
+        <div>
+            @foreach (var question in Model)
+            {
+                <div class="question-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Question Text: @question.QuestionText</h4>
+                            <p>Option A: @question.OptionA</p>
+                            <p>Option B: @question.OptionB</p>
+                            <p>Option C: @question.OptionC</p>
+                            <p>Option D: @question.OptionD</p>
+                            <p>Correct Answer: @question.CorrectAnswer</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+   
+</div>

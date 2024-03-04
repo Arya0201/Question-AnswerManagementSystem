@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "CreateUser";
+}
+
+<h2>CreateUser</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="@Url.Action("UserList", "Admin")" method="post">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="Username" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="Email" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Set Password:</label>
+                            <input type="password" id="password" name="Password" class="form-control" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">Role:</label>
+                            <select id="role" name="Role" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Student">Student</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

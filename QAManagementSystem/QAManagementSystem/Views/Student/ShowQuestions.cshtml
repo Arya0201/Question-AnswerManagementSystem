@@ -1,0 +1,85 @@
+﻿@model IEnumerable<QAManagementSystem.Models.Question>
+
+<style>
+    /* Style for the main container */
+    .container1 {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style for headings */
+    h2, h3, h4 {
+        color: #333;
+        margin-top: 0;
+    }
+
+    /* Style for question container */
+    .question-container {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    /* Style for options */
+    p {
+        margin: 5px 0;
+    }
+
+    /* Style for back to list link */
+    .back-link {
+        margin-top: 20px;
+    }
+
+        /* Style for link */
+        .back-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            /* Style for link hover */
+            .back-link a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+@{
+    ViewBag.Title = "ShowQuestions";
+}
+
+<h2>ShowQuestions</h2>
+
+<div class="container1">
+    <h2>Details of Question Paper</h2>
+    <div>
+        <h3>Question Paper Title: @ViewBag.Title</h3>
+        <h3>Description: @ViewBag.Description</h3>
+        <div>
+            <form id="question-form" action="@Url.Action("SubmitAnswers", "Student")" method="post">
+                @foreach (var question in Model)
+                {
+                    <div class="question-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Question: @question.QuestionText</h4>
+                                <input type="hidden" name="answers.Index" value="@question.QuestionId" />
+                                <input type="hidden" name="answers[@question.QuestionId].QuestionId" value="@question.QuestionId" />
+                                <input type="hidden" name="answers[@question.QuestionId].UserID" value="@Session["UserId"]" /> 
+                                <input type="hidden" name="answers[@question.QuestionId].CorrectOption" value="@question.CorrectAnswer" /> <!-- Assuming CorrectOption is known for each question -->
+                                <p><input type="radio" name="answers[@question.QuestionId].AnswerText" value="@question.OptionA">@question.OptionA</p>
+                                <p><input type="radio" name="answers[@question.QuestionId].AnswerText" value="@question.OptionB">@question.OptionB</p>
+                                <p><input type="radio" name="answers[@question.QuestionId].AnswerText" value="@question.OptionC">@question.OptionC</p>
+                                <p><input type="radio" name="answers[@question.QuestionId].AnswerText" value="@question.OptionD">@question.OptionD</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>

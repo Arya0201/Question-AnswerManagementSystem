@@ -1,0 +1,120 @@
+﻿@model IEnumerable<QAManagementSystem.Models.QuestionPaper>
+
+@{
+    ViewBag.Title = "GetQuestionPaper";
+}
+
+<style>
+    /* Style for table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for table headers */
+    th {
+        background-color: #f2f2f2;
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    /* Style for table cells */
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    /* Style for alternate row background color */
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Style for buttons */
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Style for primary button */
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    /* Style for danger button */
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    /* Style for button hover */
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<h2>Question Papers</h2>
+@if (Model.Any())
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Creation Date</th>
+            <th>Status</th>
+            <th>Edit</th>
+            <th>Actions</th>
+            <th>Details</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var questionPaper in Model)
+        {
+            <tr>
+                <td>@questionPaper.Title</td>
+                <td>@questionPaper.Description</td>
+                <td>@questionPaper.CreationDate.ToShortDateString()</td>
+                <td>@questionPaper.Status</td>
+                <td>
+                    <form action="@Url.Action("AddQuestion", "Admin")" method="get">
+                        <input type="hidden" name="QuestionPaperId" value="@questionPaper.QuestionPaperId" />
+                        <input type="hidden" name="Title" value="@questionPaper.Title" />
+                        <input type="hidden" name="Description" value="@questionPaper.Description" />
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="@Url.Action("DeleteQuestionPaper", "QuestionPaper")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="QuestionPaperId" value="@questionPaper.QuestionPaperId" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="@Url.Action("DetailsQuestion", "QuestionPaper")" method="post">
+                        <input type="hidden" name="QuestionPaperId" value="@questionPaper.QuestionPaperId" />
+                        <input type="hidden" name="Title" value="@questionPaper.Title" />
+                        <input type="hidden" name="Description" value="@questionPaper.Description" />
+                        <button type="submit" class="btn btn-primary">Details</button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+}
+else
+{
+    <p>No Question Papers</p>
+}

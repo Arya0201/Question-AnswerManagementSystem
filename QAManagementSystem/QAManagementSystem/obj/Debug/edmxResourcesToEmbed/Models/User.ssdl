@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QAManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="AnswerID" />
+    </Key>
+    <Property Name="AnswerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="QuestionId" Type="int" />
+    <Property Name="AnswerText" Type="varchar" MaxLength="255" />
+    <Property Name="CorrectOption" Type="char" MaxLength="1" />
+    <Property Name="SubmissionTimestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionPaperId" Type="int" Nullable="false" />
+    <Property Name="QuestionText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OptionA" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OptionB" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OptionC" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OptionD" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CorrectAnswer" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionPaper">
+    <Key>
+      <PropertyRef Name="QuestionPaperId" />
+    </Key>
+    <Property Name="QuestionPaperId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatorUserId" Type="int" />
+  </EntityType>
+  <EntityType Name="SubmittedQuestionPapers">
+    <Key>
+      <PropertyRef Name="SubmissionID" />
+    </Key>
+    <Property Name="SubmissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="QuestionPaperId" Type="int" />
+    <Property Name="SubmissionTimestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Answer__Question__4AB81AF0">
+    <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Answer__UserId__49C3F6B7">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuestionP__Creat__36B12243">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="QuestionPaper" Type="Self.QuestionPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="QuestionPaper">
+        <PropertyRef Name="CreatorUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Submitted__Quest__52593CB8">
+    <End Role="QuestionPaper" Type="Self.QuestionPaper" Multiplicity="0..1" />
+    <End Role="SubmittedQuestionPapers" Type="Self.SubmittedQuestionPapers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionPaper">
+        <PropertyRef Name="QuestionPaperId" />
+      </Principal>
+      <Dependent Role="SubmittedQuestionPapers">
+        <PropertyRef Name="QuestionPaperId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Submitted__UserI__5165187F">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="SubmittedQuestionPapers" Type="Self.SubmittedQuestionPapers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="SubmittedQuestionPapers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question_QuestionPaper">
+    <End Role="QuestionPaper" Type="Self.QuestionPaper" Multiplicity="1" />
+    <End Role="Question" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionPaper">
+        <PropertyRef Name="QuestionPaperId" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="QuestionPaperId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QAManagementSystemModelStoreContainer">
+    <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionPaper" EntityType="Self.QuestionPaper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubmittedQuestionPapers" EntityType="Self.SubmittedQuestionPapers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Answer__Question__4AB81AF0" Association="Self.FK__Answer__Question__4AB81AF0">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Answer__UserId__49C3F6B7" Association="Self.FK__Answer__UserId__49C3F6B7">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuestionP__Creat__36B12243" Association="Self.FK__QuestionP__Creat__36B12243">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="QuestionPaper" EntitySet="QuestionPaper" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Submitted__Quest__52593CB8" Association="Self.FK__Submitted__Quest__52593CB8">
+      <End Role="QuestionPaper" EntitySet="QuestionPaper" />
+      <End Role="SubmittedQuestionPapers" EntitySet="SubmittedQuestionPapers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Submitted__UserI__5165187F" Association="Self.FK__Submitted__UserI__5165187F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SubmittedQuestionPapers" EntitySet="SubmittedQuestionPapers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question_QuestionPaper" Association="Self.FK_Question_QuestionPaper">
+      <End Role="QuestionPaper" EntitySet="QuestionPaper" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

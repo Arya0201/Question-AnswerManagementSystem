@@ -1,0 +1,140 @@
+﻿@model IEnumerable<QAManagementSystem.Models.QuestionPaper>
+
+@{
+    ViewBag.Title = "PendingQuestionPaperList";
+}
+
+<style>
+    /* Style for table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for table headers */
+    th {
+        background-color: #f2f2f2;
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    /* Style for table cells */
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    /* Style for alternate row background color */
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Style for buttons */
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Style for primary button */
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    /* Style for danger button */
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    /* Style for button hover */
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 4px;
+    }
+</style>
+
+<h2>Manage Submitted Question Papers</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorUserId)
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatorUserId)
+                </td>
+                <td class="buttons">
+                    <form action="@Url.Action("ApproveQuestionPaper", "Admin")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="QuestionPaperId" value="@item.QuestionPaperId" />
+                        <button type="submit" class="btn btn-default">Approve</button>
+                    </form>
+
+                    <form action="@Url.Action("RejectQuestionPaper", "Admin")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="QuestionPaperId" value="@item.QuestionPaperId" />
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+
+                    <form action="@Url.Action("DetailsQuestion", "QuestionPaper")" method="post">
+                        <input type="hidden" name="QuestionPaperId" value="@item.QuestionPaperId" />
+                        <input type="hidden" name="Title" value="@item.Title" />
+                        <input type="hidden" name="Description" value="@item.Description" />
+                        <button type="submit" class="btn btn-warning">Details</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <p>No Question Papers</p>
+}
