@@ -1,0 +1,139 @@
+﻿@model IEnumerable<QAManagementSystem.Models.QuestionPaperWithSubmittedQuestionsViewModel>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .Container {
+        max-width: 800px;
+        margin: 40px auto;
+    }
+
+    .question-paper {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+        .question-paper:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-paper h2 {
+            color: #333;
+            margin-top: 0;
+            font-size: 24px;
+        }
+    .question {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h4 {
+            color: #333;
+            margin-top: 0;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+    .options {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .options li {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .options li:hover {
+                background-color: #e0e0e0;
+            }
+
+            .options li:first-child {
+                margin-top: 5px;
+            }
+
+    .correct-option {
+        color: #008000;
+        font-weight: bold;
+    }
+
+    .submitted-answer {
+        font-weight: bold;
+    }
+
+    .correct-answer {
+        color: #008000;
+    }
+
+    .wrong-answer {
+        color: #ff0000;
+    }
+</style>
+
+<div class="Container">
+    @foreach (var questionPaper in Model)
+    {
+    <div class="question-paper">
+        <h2>Question Paper ID: @questionPaper.QuestionPaperId</h2>
+        @foreach (var question in questionPaper.QuestionsWithSubmittedAnswers)
+        {
+            <div class="question">
+                <h4>Q) @question.QuestionText?</h4>
+                <ul class="options">
+                    <li>Option A: @question.OptionA</li>
+                    <li>Option B: @question.OptionB</li>
+                    <li>Option C: @question.OptionC</li>
+                    <li>Option D: @question.OptionD</li>
+                </ul>
+                <p>Correct Option: @question.CorrectAnswer</p>
+                <p>
+                    Submitted Answer:
+                    @if (!string.IsNullOrEmpty(question.SubmittedAnswer))
+                    {
+                        @question.SubmittedAnswer
+                    }
+                    else
+                    {
+                        <span>No answer submitted</span>
+                    }
+                </p>
+            </div>
+        }
+
+        <!-- Back Button -->
+        <a href="/Student/SubmittedQuestionPaper" class="back-button">Back</a>
+    </div>
+    }
+</div>
+
+<script>
+    // Function to replace the current page in the browser history
+    function removePageFromHistory() {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Add event listener to the back button to remove the page from history when clicked
+    document.querySelector('.back-button').addEventListener('click', function() {
+        removePageFromHistory();
+    });
+</script>

@@ -1,0 +1,74 @@
+﻿@using QAManagementSystem.Models
+@model List<SubmittedQuestionPaperViewModel>
+
+<style>
+    /* Table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+    /* Button styles */
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+</style>
+
+
+<h2>Submitted Question Papers</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question Paper Title</th>
+                <th>Question Paper Description</th>
+                <th>Submission Timestamp</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var submission in Model)
+            {
+                <tr>
+
+                    <td>@submission.QuestionPaperTitle</td>
+                    <td>@submission.QuestionPaperDescription</td>
+                    <td>@submission.SubmissionTimestamp</td>
+                    <td>
+                        <form method="post" action="@Url.Action("ShowFullQuestionWithAnswer", "QuestionPaper")">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="questionPaperId" value="@submission.QuestionPaperID" />
+                            <button type="submit" class="btn">Show Questions</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No submitted question papers found.</p>
+}

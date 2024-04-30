@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QAManagementSystemModelStoreContainer" CdmEntityContainer="QAManagementSystemEntities">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="QAManagementSystemModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionPapers">
+      <EntityTypeMapping TypeName="QAManagementSystemModel.QuestionPaper">
+        <MappingFragment StoreEntitySet="QuestionPaper">
+          <ScalarProperty Name="CreatorUserId" ColumnName="CreatorUserId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="QuestionPaperId" ColumnName="QuestionPaperId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="QAManagementSystemModel.Question">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+          <ScalarProperty Name="OptionD" ColumnName="OptionD" />
+          <ScalarProperty Name="OptionC" ColumnName="OptionC" />
+          <ScalarProperty Name="OptionB" ColumnName="OptionB" />
+          <ScalarProperty Name="OptionA" ColumnName="OptionA" />
+          <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+          <ScalarProperty Name="QuestionPaperId" ColumnName="QuestionPaperId" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Answers">
+      <EntityTypeMapping TypeName="QAManagementSystemModel.Answer">
+        <MappingFragment StoreEntitySet="Answer">
+          <ScalarProperty Name="SubmissionTimestamp" ColumnName="SubmissionTimestamp" />
+          <ScalarProperty Name="CorrectOption" ColumnName="CorrectOption" />
+          <ScalarProperty Name="AnswerText" ColumnName="AnswerText" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubmittedQuestionPapers">
+      <EntityTypeMapping TypeName="QAManagementSystemModel.SubmittedQuestionPaper">
+        <MappingFragment StoreEntitySet="SubmittedQuestionPapers">
+          <ScalarProperty Name="SubmissionTimestamp" ColumnName="SubmissionTimestamp" />
+          <ScalarProperty Name="QuestionPaperId" ColumnName="QuestionPaperId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SubmissionID" ColumnName="SubmissionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

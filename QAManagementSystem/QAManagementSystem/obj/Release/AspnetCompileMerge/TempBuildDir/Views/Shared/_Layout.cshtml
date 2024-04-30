@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-5PP6E7aPfM5oaOGDzS/xez3K5ZQlpkCnIjBpOTymfPMI2k3S0nbjyPWtzB+RS4P7DLKxvKKGcbhS1HfZAC1CYQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Q&A</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Session["Role"] != null && @Session["Role"].ToString() == "Admin")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("Create User", "CreateUser", "Admin")</li>
+                        <li>@Html.ActionLink("Users", "UserList", "Admin")</li>
+                        <li>@Html.ActionLink("Create QuestionPaper", "CreateQuestionPaper", "QuestionPaper")</li>
+                        <li>@Html.ActionLink("QuestionPaperList", "GetQuestionPaper", "Admin")</li>
+                        <li>@Html.ActionLink("ManageSubmitedQuestionPaper", "PendingQuestionPaperList", "Admin")</li>
+                        <li>@Html.ActionLink("ApprovedQuestionPaper", "ApprovedQuestionPaper", "Admin") </li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    }
+                    @if (Session["Role"] != null && @Session["Role"].ToString() == "Teacher")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Teacher")</li>
+                        <li>@Html.ActionLink("Create QuestionPaper", "CreateQuestionPaper", "QuestionPaper")</li>
+                        <li>@Html.ActionLink("QuestionPaperList", "GetQuestionPaper", "Teacher")</li>
+                        <li>@Html.ActionLink("PendingQuestionPapers", "PendingQuestionPaperList", "Teacher")</li>
+                        <li>@Html.ActionLink("ApprovedQuestionPaper", "ApprovedQuestionPaper", "Teacher")</li>
+                        <li>@Html.ActionLink("RejectedQuestionPaper", "RejectedQuestionPaper", "Teacher")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    }
+                    @if (Session["Role"] != null && @Session["Role"].ToString() == "Student")
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Student")</li>
+                        <li>@Html.ActionLink("ShowQuestionPapers", "ShowQuestionPapers", "Student")</li>
+                        <li>@Html.ActionLink("SubmittedQuestionPaper", "SubmittedQuestionPaper", "Student")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

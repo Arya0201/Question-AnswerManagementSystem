@@ -1,0 +1,112 @@
+﻿@*@model QAManagementSystem.Models.Question*@
+@*@model Enumerable<QAManagementSystem.Models.Question>*@
+
+@model IEnumerable<QAManagementSystem.Models.Question>
+<style>
+    /* Style for question container */
+    .question-container {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    /* Style for question text */
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Style for options */
+    .option {
+        margin-bottom: 5px;
+    }
+
+    /* Style for correct answer */
+    .correct-answer {
+        font-weight: bold;
+        color: green;
+    }
+
+    /* Style for delete button */
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        /* Style for delete button hover */
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-container{
+        display:flex;
+        gap:5px;
+    }
+</style>
+
+@{
+    ViewBag.Title = "AddQuestion";
+}
+
+<h2>Add Question to @ViewBag.QPtitle</h2>
+
+<div>
+    <h4>Description:</h4>
+    <p>@ViewBag.QPDescription</p>
+
+
+    @Html.Partial("./_AddQuestion", new QAManagementSystem.Models.Question())
+
+    <div>
+        @foreach (var question in Model)
+        {
+            <div class="question-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="question-text">Question Text: @question.QuestionText</h4>
+                        <p class="option">Option A: @question.OptionA</p>
+                        <p class="option">Option B: @question.OptionB</p>
+                        <p class="option">Option C: @question.OptionC</p>
+                        <p class="option">Option D: @question.OptionD</p>
+                        <p class="correct-answer">Correct Answer: @question.CorrectAnswer</p>
+
+                        <div class="btn-container">
+                            <form id="editForm-@question.QuestionId" action="@Url.Action("EditQuetionView","QuestionPaper")" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="QuestionId" value="@question.QuestionId" />
+                                <button type="submit" onclick="return confirm('Are you sure you want to Edit this question?');" class="btn btn-success">Edit</button>
+                            </form>
+
+                            <form id="deleteForm-@question.QuestionId" action="@Url.Action("DeleteQuestion", "Teacher")" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="QuestionId" value="@question.QuestionId" />
+                                <input type="hidden" name="questionPaperId" value="@ViewBag.QPId" />
+                                <input type="hidden" name="Title" value="@ViewBag.QPtitle" />
+                                <input type="hidden" name="Description" value="@ViewBag.QPDescription" />
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this question?');" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
